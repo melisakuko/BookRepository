@@ -1,0 +1,52 @@
+<div class="container">
+    <button class="btn btn-success" style="margin-top: 10px;" (click)="toggleImage()">{{showImg ? 'Hide image': 'Show
+        image'}}
+    </button>
+    <button class="btn btn-danger" style="margin-top: 10px; margin-left: 10px"
+    (click)="formatData()">Click</button>
+    <table class="table table-striped table-bordered" style="margin-top: 10px;">
+        <thead>
+            <tr>
+                <th scope="col">Naziv</th>
+                <th scope="col">Autor</th>
+                <th scope="col">Zanr</th>
+                <th scope="col">Opis</th>
+                <th scope="col">Slika</th>
+                <th scope="col">Cijena</th>
+                <th scope="col">Datum izdavanja</th>
+                <th scope="col">Jezik</th>
+                <th scope="col">Broj stranica</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr *ngFor="let book of books">
+                <td>{{book.naziv}}</td>
+                <td>{{book.autor}}</td>
+                <td>{{book.zanr}}</td>
+                <td>
+                    <p *ngIf="book.showDesc">{{book.opis}}</p>
+                    <button class="btn btn-primary" (click)="toggleDescription(book.id)">{{book.showDesc ? 'Hide desc':'Show desc'}}</button>
+                </td>
+                <td *ngIf="book.slika">
+                    <img *ngIf="showImg" [src]="book.slika" style="height: 200px; width: 150px;">
+                </td>
+                <td *ngIf="!book.slika"><img
+                        src="https://aeroclub-issoire.fr/wp-content/uploads/2020/05/image-not-found.jpg"
+                        style="height: 150px;" *ngIf="showImg"></td>
+                <td>{{ format ? [book.cijena | currency: "USD" : "$" : "1.2-2"]: book.cijena}}</td>
+                <td>{{format? [book.datumIzdavanja | date: "yyyy"] : book.datumIzdavanja}}</td>
+                <td>{{format? [book.jezik | uppercase]: book.jezik}}</td>
+                <td *ngIf="book.brojStranica  > 200 &&  format" style="background-color: orange;">
+                    {{book.brojStranica}}
+                </td>
+                <td *ngIf="book.brojStranica > 100 && book.brojStranica < 200 && format"
+                    style="background-color: blue;color: white;">
+                    {{book.brojStranica}}
+                </td>
+                <td *ngIf="!format">
+                    {{book.brojStranica}}
+                </td>
+        </tbody>
+    </table>
+</div>
